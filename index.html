@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
-<body>
+<body class="blurred">
     <header class="header">
         <div class="header-left">
             <i class="fa-solid fa-sun weather-icon large" data-current-icon></i>
@@ -454,13 +454,13 @@
     <template id="day-card-template">
         <div class="day-card">
             <i class="fa-solid fa-cloud-rain weather-icon" data-icon></i>
-            <div class="day-card-day">data-date</div>
+            <div class="day-card-day"><span data-date></span></div>
             <div><span data-temp></span><span>&deg;</span></div>
         </div>
     </template>
         
     <template id="hour-row-template">
-        <tr class="hour-row">
+        <tr class="hour-row hour-section">
             <td>
                 <div class="info-group">
                     <div class="label" data-day></div>
