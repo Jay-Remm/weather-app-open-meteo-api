@@ -8,7 +8,7 @@
 
 body {
     margin: 0;
-    background-color: rgb(240, 240, 204);
+    background-color: rgb(241, 241, 229);
     color: rgb(63, 0, 63);
     font-family: sans-serif;
 }
@@ -85,7 +85,8 @@ header {
     grid-template-columns: repeat(auto-fit, 75px);
     gap: 0.5rem;
     justify-content: center;
-    padding: 1rem;
+    padding: 2rem 1rem;
+    
 }
 
 .day-card {
@@ -110,12 +111,12 @@ header {
 }
 
 .hour-row {
-    background-color: rgb(223, 223, 189);
+    background-color: rgb(223, 223, 214);
 }
 
 /* this will change the backgound color for every other row */
 .hour-row:nth-child(2n) {
-    background-color: rgb(194, 194, 159);
+    background-color: rgb(197, 197, 187);
 }
 
 .hour-row > td {
