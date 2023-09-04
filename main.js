@@ -60,6 +60,13 @@ function renderCurrentWeather(current) {
 
 // moving to the daily weather rendering
 
+// function getDayIcon(iconCode) {
+//     // removes the default icon class i set for the icon
+//     dailyIcon.classList.remove('fa-sun', 'fa-cloud', 'fa-cloud-rain')
+//     dailyIcon.classList.add(`fa-${ICON_MAP.get(iconCode)}`)
+//     // the iconCode should be mapped to the class names for the different icons
+// }
+
 const DAY_FORMATTER = new Intl.DateTimeFormat(undefined, { weekday: "long" })
 const dailySelection = document.querySelector('[data-day-section]')
 const dayCardTemplate = document.getElementById('day-card-template')
@@ -69,10 +76,23 @@ function renderDailyWeather(daily) {
     // this is how we are cloning our template
     daily.forEach(day => {
         const element = dayCardTemplate.content.cloneNode(true)
-        const dailyIcon = element.querySelector('[data-icon]')
+        // we are goting to use let instead of const to assign dailyIcon as a variable that i can all inside of my nested function below, but still pointing to the element.
+        let dailyIcon = element.querySelectorAll('[data-icon]')
         setValue('temp', day.maxTemp, { parent: element })
         setValue("date", DAY_FORMATTER.format(day.timestamp), { parent: element })
-        dailyIcon.class = getIconClass(day.iconCode)
+
+        // my nested function below works alot like the getIconClass function above, but because im getting a node list for my elements of day card templates from this parent function, I am asking that forEach of the [data-icon] instances, I change the icon by (arrow-function) tapping into the class list
+        function getDayIcon(iconCode) {
+            // removes the default icon class you set for the icon
+            dailyIcon.forEach(icon => icon.classList.remove('fa-sun', 'fa-cloud', 'fa-cloud-rain'))
+            // adds in my new icon class using the ICON_MAP
+            dailyIcon.forEach(icon => icon.classList.add(`fa-${ICON_MAP.get(iconCode)}`))
+        }
+        
+        dailyIcon = Array.from(dailyIcon)
+        // above this converts the nodeList i get from the element const to an array for my getDayIcon to parse for the [data-icon]s and change them. below i call the neasted function and apply it to the day card.
+        getDayIcon(day.iconCode)
+            
         dailySelection.append(element)
     })
 }
@@ -86,14 +106,26 @@ function renderHourlyWeather(hourly) {
     // this is how we are cloning our template
     hourly.forEach(hour => {
         const element = hourRowTemplate.content.cloneNode(true)
-        const dailyIcon = element.querySelector('[data-icon]')
+        // making hourlyIcon a variable so i can call it in my nested fuction below
+        let hourlyIcon = element.querySelectorAll('[data-icon]')
         setValue('temp', hour.temp, { parent: element })
         setValue('feels-temp', hour.feelsLike, { parent: element })
         setValue('wind', hour.windSpeed, { parent: element })
         setValue('precip', hour.precip, { parent: element })
         setValue('day', DAY_FORMATTER.format(hour.timestamp), { parent: element })
         setValue("time", HOUR_FORMATTER.format(hour.timestamp), { parent: element })
-        dailyIcon.class = getIconClass(hour.iconCode)
+
+         // Notes on the nested function are the same as the getDayIcon function above
+         function getHourIcon(iconCode) {
+            // removes the default icon class you set for the icon
+            hourlyIcon.forEach(icon => icon.classList.remove('fa-sun', 'fa-cloud', 'fa-cloud-rain'))
+            // adds in my new icon class using the ICON_MAP
+            hourlyIcon.forEach(icon => icon.classList.add(`fa-${ICON_MAP.get(iconCode)}`))
+        }
+        
+        hourlyIcon = Array.from(hourlyIcon)
+        getHourIcon(hour.iconCode)
+
         hourlySelection.append(element)
     })
 }
